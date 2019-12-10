@@ -6,4 +6,4 @@ Generate random social text for your mockups in Adobe XD.
 
 ## Installation
 
-Download the [latest release](https://github.com/Yuffster/socialipsum/releases), open the .xdx file with Adobe XD.
+Download the [latest release](https://github.com/Yuffster/socialipsum/releases/latest), open the [.xdx file](https://github.com/Yuffster/socialipsum/releases/download/v0.0.1/SocialIpsum-0.0.1.xdx) with Adobe XD.
