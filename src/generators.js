@@ -3,15 +3,8 @@
 
 let pick = (r) => r[Math.floor(Math.random()*r.length)];
 
-// This list works surprisingly well.
-let usernames = [
-	'theREAL',
-	'__',
-	'XxX',
-	'oOoO',
-	'sterz',
-	'der'
-];
+const nouns = require('./data/nouns.json');
+const adjectives = require('./data/adjectives.json');
 
 const first_names = require('./data/first_names.json');
 const last_names = require('./data/last_names.json');
@@ -33,7 +26,7 @@ let emoji = `
 `.trim().split(/\s/)
 
 function username() {
-	return '@'+pick(usernames)+pick(usernames)+pick(usernames);
+	return '@'+pick(adjectives)+pick(nouns);
 }
 
 function fullname() { 
