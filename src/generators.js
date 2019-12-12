@@ -14,7 +14,7 @@ let usernames = [
 ];
 
 const first_names = require('./data/first_names.json');
-const last_names = require('./data/last_names.json');;
+const last_names = require('./data/last_names.json');
 
 let words = `
 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
