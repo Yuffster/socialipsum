@@ -14,13 +14,15 @@ const fullname = () => pick(first_names)+' '+pick(last_names);
 /**
  * I'll probably add sliders for emoji frequency later.
  */
-function moji() {
+function moji(options) {
+	options = options || {};
+	let freq = options['emoji_frequency'] || 0;
 	let text = [];
 	let n = Math.floor(Math.random()*25)+10;
 	for (let i=0;i<=n;i++) {
-		let m = Math.floor(Math.random()*12);
-		if (m == 8) text.push(pick_emoji());
-		text.push(pick(ipsum));
+		let m = Math.floor(Math.random()*100);
+		if (m < freq) text.push(pick_emoji());
+		else text.push(pick(ipsum));
 	}
 	return text.join(' ');
 }
