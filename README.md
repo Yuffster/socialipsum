@@ -12,7 +12,13 @@ You'll see a plugin installation modal.
 
 ![Screenshot of installation.](https://user-images.githubusercontent.com/13204/70500633-05312e00-1aea-11ea-9f1f-45dd9cac3f59.png)
 
-Click 'Install.'
+## Build Instructions
+
+Clone the git repo (or unzip the released zip file) into your Adobe XD Plugin Development folder.
+
+You can find that folder by going to `Plugins` > `Development` > `Show Develop Folder` in the Adobe XD menu.
+
+Beyond that, there's nothing else you have to do.  It's all written in vanilla JavaScript.
 
 ## Data Licensing
 
