@@ -6,7 +6,11 @@ const generators = require('./src/generators');
 function getFormData(form) {
 	let out = {};
 	for (let el of form.querySelectorAll('input')) {
-		out[el.name] = el.value;
+		if (el.type == "checkbox") {
+			out[el.name] = (el.checked);
+		} else {
+			out[el.name] = el.value;
+		}
 	}
 	return out;
 }
@@ -17,20 +21,59 @@ function getFormData(form) {
 function show(event) {
 	let root = document.createElement("panel");
 	root.innerHTML = require('./src/panel');
+	let tabs = root.querySelector('#type-selector');
+	let generators = root.querySelector('#generators');
+	let sets = generators.querySelectorAll('fieldset');
+	let submit = generators.querySelector('button[type=submit]');
+	let example = generators.querySelector('#example');
+	let preview = generators.querySelector('#preview');
+	const getPreview = () => {
+		let type = tabs.value;
+		let options = getFormData(generators.querySelector(`#${type}`));
+		let response = generate(type, 1, options);
+		if (!response) return;
+		if (response.error) {
+			return;
+		}
+		example.innerHTML = response;
+	};
+	const tab = (name) => {
+		for (let s of sets) s.classList.remove('active');
+		let t = generators.querySelector(`#${name}`);
+		if (!t) return;
+		example.innerHTML = '';
+		t.classList.add('active');
+		if (t.id == "info") {
+			submit.disabled = true;
+			submit.title = "Select content type from dropdown above.";
+			preview.style.display = 'none';
+		} else {
+			submit.disabled = false;
+			submit.title = '';
+			preview.style.display = 'block';
+			getPreview();
+		}
+	};
+	tabs.addEventListener('change', (evt) => {
+		for (let s of sets) s.classList.remove('active');
+		tab(tabs.value);
+	});
+	generators.addEventListener('submit', (evt) => {
+		let data = getFormData(generators.querySelector(`#${tabs.value}`));
+		replaceSelection(tabs.value, data);
+	});
+	tab(tabs.value);
 	for (let b of root.querySelectorAll('input[type=range]')) {
-		b.addEventListener('input', (evt) => { 
+		b.addEventListener('input', (evt) => {
 			let t = evt.target;
+			// isn't there an Element.closest function?
+			let l = t.parentElement;
 			let val = Math.floor(t.value);
-			let vars = root.querySelectorAll(`label[for="${t.id}"] var`);
+			let vars = l.querySelectorAll(`var`);
 			for (let v of vars) v.textContent = `${val}`;
 		});
 	}
-	for (let f of root.querySelectorAll('form[data-generator]')) {
-		f.addEventListener('submit', (evt) => {
-			let t = evt.target;
-			replaceSelection(t.dataset.generator, getFormData(t));
-		});
-	}
+	generators.addEventListener('input', getPreview);
 	event.node.appendChild(root);
 }
 
@@ -100,6 +143,9 @@ function replaceSelection(type='moji', options) {
 function generate(type, n=1, options=null) {
 	const gen = ((type instanceof Function) ? type : generators[type]) ||
 	            generators.ipsum;
+	if (!gen) {
+		return {error: 'Unknown generator.'};
+	}
 	let out = [];
 	for (let i=0;i<=n; i++) out[i] = gen(options);
 	return (n==1) ? out[0] : out;

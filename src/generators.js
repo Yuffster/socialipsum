@@ -8,12 +8,24 @@ const ipsum = require('./data/ipsum.json');
 const pick = r => r[Math.floor(Math.random()*r.length)];
 const n = n => Math.floor(Math.random()*n);
 const pick_emoji = () => String.fromCodePoint(parseInt('1F600', 16)+n(80));
-const username = () => '@'+pick(adjectives)+pick(nouns);
-const fullname = () => pick(first_names)+' '+pick(last_names);
 
-/**
- * I'll probably add sliders for emoji frequency later.
- */
+function username(options) {
+	let p = options.prefix || '';
+	let s = options.suffix || '';
+	return p + pick(adjectives) + pick(nouns) + s;
+}
+
+function realname(options) {
+	let out = [];
+	if (options.first) out.push(pick(first_names));
+	if (options.initial) out.push(pick(first_names)[0]+'.');
+	if (options.last) out.push(pick(last_names));
+	if (out.length == 0) {
+		return {'error': 'Please pick at least one name.'};
+	}
+	return out.join(' ');
+}
+
 function moji(options) {
 	options = options || {};
 	let freq = options['emoji_frequency'] || 0;
@@ -29,6 +41,6 @@ function moji(options) {
 
 module.exports = {
 	username,
-	fullname,
+	realname,
 	moji
 }
