@@ -33,9 +33,18 @@ function show(event) {
 		let response = generate(type, 1, options);
 		if (!response) return;
 		if (response.error) {
-			return;
+			submit.disabled = true;
+			submit.setAttribute('title', response.error);
+			preview.classList.add('color-red');
+			preview.querySelector('h1').style.display = 'none';
+			example.innerHTML = response.error;
+		} else {
+			submit.setAttribute('title', "");
+			submit.disabled = false;
+			example.innerHTML = response;
+			preview.classList.remove('color-red');
+			preview.querySelector('h1').style.display = 'block';
 		}
-		example.innerHTML = response;
 	};
 	const tab = (name) => {
 		for (let s of sets) s.classList.remove('active');
@@ -45,11 +54,11 @@ function show(event) {
 		t.classList.add('active');
 		if (t.id == "info") {
 			submit.disabled = true;
-			submit.title = "Select content type from dropdown above.";
+			submit.setAttribute('title', "Select content type from dropdown above.");
 			preview.style.display = 'none';
 		} else {
 			submit.disabled = false;
-			submit.title = '';
+			submit.setAttribute('title', '');
 			preview.style.display = 'block';
 			getPreview();
 		}
