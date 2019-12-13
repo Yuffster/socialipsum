@@ -18,7 +18,7 @@ Clone the git repo (or unzip the released zip file) into your Adobe XD Plugin De
 
 You can find that folder by going to `Plugins` > `Development` > `Show Develop Folder` in the Adobe XD menu.
 
-Beyond that, there's nothing else you have to do.  It's all written in vanilla JavaScript.
+Beyond that, there's nothing else you have to do.  It's all written in vanilla JavaScript and has no library dependencies.
 
 ## Data Licensing
 
