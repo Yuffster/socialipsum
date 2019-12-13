@@ -21,7 +21,7 @@ function realname(options) {
 	if (options.initial) out.push(pick(first_names)[0]+'.');
 	if (options.last) out.push(pick(last_names));
 	if (out.length == 0) {
-		return {'error': 'Please pick at least one name.'};
+		return {'error': 'Please check at least one box.'};
 	}
 	return out.join(' ');
 }
