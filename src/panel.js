@@ -16,6 +16,9 @@ module.exports =`
 		align-items: center;
 		width: 100%;
 	}
+	input[type=range] {
+		width: 100%;
+	}
 	img {
 		width: 100%;
 		height: auto;
@@ -33,10 +36,10 @@ module.exports =`
 	#generators #sections {
 		height: 200px;
 	}
-	#generators #sections > fieldset {
+	#generators #sections > form,#generators #sections > section {
 		display: none;
 	}
-	#generators #sections > fieldset.active {
+	#generators #sections > .active {
 		display: block;
 	}
 </style>
@@ -54,20 +57,20 @@ module.exports =`
 				<option value="realname">Real Name</option>
 			</select>
 		</label>
-		<form id="generators">
+		<div id="generators">
 			<div id="sections">
-				<fieldset id="info" data-no-submit>
+				<section id="info" data-no-submit>
 					<p>Select a content type in the dropdown above to start generating.</p>
-				</fieldset>
-				<fieldset id="moji">
+				</section>
+				<form id="moji">
 					<label>
 						<span>Emoji Frequency</span>
 						<span><var>${emoji_freq}</var>%</span>
 						<input type="range"name="emoji_frequency"
 						 min=0 max=100 value=${emoji_freq} />
 					</label>
-				</fieldset>
-				<fieldset id="username">
+				</form>
+				<form id="username">
 					<label>
 						<span>Prefix</span>
 						<input type="text" name="prefix" />
@@ -76,8 +79,8 @@ module.exports =`
 						<span>Suffix</span>
 						<input name="suffix" type="text" />
 					</label>
-				</fieldset>
-				<fieldset id="realname">
+				</form>
+				<form id="realname">
 					<label>
 						<input type="checkbox" checked name="first" />
 						<span>First Name</span>
@@ -90,8 +93,7 @@ module.exports =`
 						<input type="checkbox" name="last" />
 						<span>Last Name</span>
 					</label>
-				</fieldset>
-
+				</form>
 				<div id="preview">
 					<hr/>
 					<h1>Example Output</h1>
@@ -99,5 +101,5 @@ module.exports =`
 				</div>
 			</div>
 			<button type="submit" uxp-variant="cta">Generate</button>
-		</form>
+		</div>
 </div>`;

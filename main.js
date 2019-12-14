@@ -5,12 +5,15 @@ const generators = require('./src/generators');
 
 function getFormData(form) {
 	let out = {};
-	for (let el of form.querySelectorAll('input')) {
-		if (el.type == "checkbox") {
-			out[el.name] = (el.checked);
-		} else {
-			out[el.name] = el.value;
-		}
+	for (let l of form.querySelectorAll('input[name]')) {
+		let n = l.name;
+		if (l.type == "checkbox") out[n] = (l.checked);
+		else out[n] = l.value;
+	}
+	for (let l of form.querySelectorAll('select')) {
+		let n = l.getAttribute('name');
+		let s = l.options[l.selectedIndex];
+		if (s) out[n] = l.value;
 	}
 	return out;
 }
@@ -23,7 +26,7 @@ function show(event) {
 	root.innerHTML = require('./src/panel');
 	let tabs = root.querySelector('#type-selector');
 	let generators = root.querySelector('#generators');
-	let sets = generators.querySelectorAll('fieldset');
+	let sets = generators.querySelectorAll('section,form');
 	let submit = generators.querySelector('button[type=submit]');
 	let example = generators.querySelector('#example');
 	let preview = generators.querySelector('#preview');
@@ -67,7 +70,7 @@ function show(event) {
 		for (let s of sets) s.classList.remove('active');
 		tab(tabs.value);
 	});
-	generators.addEventListener('submit', (evt) => {
+	submit.addEventListener('click', (evt) => {
 		let data = getFormData(generators.querySelector(`#${tabs.value}`));
 		replaceSelection(tabs.value, data);
 	});
@@ -83,6 +86,7 @@ function show(event) {
 		});
 	}
 	generators.addEventListener('input', getPreview);
+	generators.addEventListener('change', getPreview);
 	event.node.appendChild(root);
 }
 
